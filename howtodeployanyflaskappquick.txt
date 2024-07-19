@@ -1,0 +1,71 @@
+Para desplegar cualquier pagina usando Flask se debe tener en cuenta lo siguiente:
+
+1. Flask es posible hacerle deploy en:
+	-PythonAnywhere
+	-Google App Engine
+	-Google Cloud Run
+	-AWS Elastic Beanstalk
+	-Microsoft Azure
+Para esta guia, se usa Microsoft Azure.
+
+2.Se debe tener la extension en Visual Studio Code de Azure.
+3.Se deberia tener la app en Github en caso de tener Microsoft Azure con una subscripción paga.
+
+Pasos para realizar deploy de cualquier app web en Microsoft Azure:
+
+1.En el main code, es decir, el código principal (app.py). Se debe realizar la siguiente modificación:
+
+	if __name__ == "__main__":
+    		from waitress import serve
+    		serve(app, host="0.0.0.0", port=8080)
+
+	Acá la app correrá en un localhost del puerto 8080 y ya no en http://127.0.0.1:5000/.
+	Se realizá esto para mejorar la experiencia al realizar el deploy.
+
+2.Es necesario tener claro que librerias usas en tu app, por ejemplo, en mi caso usé:
+
+	import os
+	from flask import Flask, render_template, request
+	import tensorflow as tf
+	import numpy as np
+	import matplotlib.pyplot as plt
+	
+	Por tanto, procedo a crear un archivo .txt con el siguiente nombre y extensión "requirements.txt".
+	Ahora, en este se deben incluir unicamente las librerias usadas con sus versiones, el contenido del
+	archivo se deberia ver algo así:
+
+	Flask==3.0.3
+	keras==3.4.1
+	matplotlib==3.9.1
+	numpy==1.26.4
+	tensorflow==2.17.0
+	Werkzeug==3.0.3
+	gunicorn
+
+3. Ahora, se debe matar todas las terminales abiertas y abrir una terminal del tipo "Command Prompt" y crear
+el entorno virtual con los siguientes comandos:
+	
+Crear entorno virtual:		python -m venv venv
+
+Activar entorno virtual:	venv\Scripts\activate
+
+Instalar librerias en venv:	pip3 install flask tensorflow numpy matplotlib
+
+Instalar gunicorn:		pip3 install gunicorn
+
+Actualizar pip:			python.exe -m pip install --upgrade pip
+
+4.Crear una cuenta en Azure, se ingresa en este link: https://azure.microsoft.com/es-es
+
+5. Abrir https://portal.azure.com/, y click a +Crear un recurso, allí creas un App Web y seleccionas
+South Central Us, grupo de recursos=azurepythondemo, tu version de python, seleccionar el gratis.
+
+6. Regresar a Visual Studio Code y presionar click derecho sobre espacio vacío donde se está trabajando con la app.
+
+7.Seleccionar Deploy to Web App, ahi seleccionas en la parte superior tu App creada en Azure, y listo.
+
+8.Al regresar a Azure se puede ingresar al link de la app tras haberse completado el deploy. Tiempo estimado 
+del deploy(4,5 minutos).
+
+
+

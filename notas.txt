@@ -1,0 +1,7 @@
+##Para correr esta app, abra la terminal y copie este comando:
+
+python app.py
+
+##Posterior a esto copie este link para visualizar la app:
+
+http://localhost:8080/
